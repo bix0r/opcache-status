@@ -282,9 +282,18 @@ class OpCacheDataModel
         return $array;
     }
 
+    public function runReset()
+    {
+        opcache_reset();
+        header('Location: ' . $_SERVER['PHP_SELF']);
+    }
+
 }
 
 $dataModel = new OpCacheDataModel();
+if (array_key_exists('reset', $_GET)) {
+    $dataModel->runReset();
+}
 ?>
 <!DOCTYPE html>
 <meta charset="utf-8">
@@ -522,6 +531,17 @@ $dataModel = new OpCacheDataModel();
                 <input type="radio" id="tab-visualise" name="tab-group-1">
                 <label for="tab-visualise">Visualise Partition</label>
                 <div class="content"></div>
+            </div>
+
+            <div class="tab">
+                <input type="radio" id="tab-reset" name="tab-group-1">
+                <label for="tab-reset">Reset</label>
+                <div class="content">
+                    <form method="get" action="<?php echo $_SERVER['PHP_SELF']?>" style="text-align: center;padding:20px;">
+                        <input type="hidden" name="reset" value="1"/>
+                        <input type="submit" value="Reset the Opcache" style="padding:10px"/>
+                    </form>
+                </div>
             </div>
 
         </div>
